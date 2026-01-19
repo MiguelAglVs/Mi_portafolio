@@ -1,0 +1,10 @@
+# .vercelignore
+node_modules
+.next
+*.log
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+vercel.json
+public/README.md
