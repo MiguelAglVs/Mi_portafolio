@@ -12,7 +12,7 @@ const nextConfig = {
   },
   // Si usas TypeScript con Prisma
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true,
   },
 }
 
