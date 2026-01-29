@@ -45,7 +45,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         />
         {project.featured && (
           <div className="absolute top-3 right-3">
-            <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500">
+            <Badge className="bg-linear-to-r from-yellow-500 to-orange-500">
               Destacado
             </Badge>
           </div>
@@ -62,7 +62,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             <span>{project.views}</span>
           </div>
         </div>
-        <CardDescription className="line-clamp-2 min-h-[40px]">
+        <CardDescription className="line-clamp-2 min-h-10">
           {project.description || "Sin descripción"}
         </CardDescription>
       </CardHeader>
