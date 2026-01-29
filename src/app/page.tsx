@@ -1,11 +1,12 @@
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Code, Palette, Rocket, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {prisma} from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import HomeProjectCard from "@/components/HomeProjectCard";
 
 const skills = [
@@ -26,10 +27,10 @@ const skills = [
 ];
 
 export default async function Home() {
-  let projects = [];
+  let featuredProjects = [];
 
   try {
-    projects = await prisma.project.findMany({
+    featuredProjects = await prisma.project.findMany({
       where: {
         published: true,
         featured: true,
@@ -52,11 +53,9 @@ export default async function Home() {
       },
       take: 6,
     });
-  } catch (error) {
-    projects = [];
+  } catch {
+    featuredProjects = [];
   }
-
-  const featuredProjects = projects;
 
   return (
     <div className="min-h-screen">
@@ -113,7 +112,7 @@ export default async function Home() {
                         </div>
                         <div>
                           <h3 className="text-white font-semibold">
-                            [Tu Nombre]
+                            Tu Nombre
                           </h3>
                           <p className="text-gray-300 text-sm">
                             Full Stack Developer
@@ -205,7 +204,7 @@ export default async function Home() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Escribo código mantenible, bien documentado y siguiendo las mejores prácticas de la industria.
+                  Escribo código mantenible y siguiendo buenas prácticas.
                 </p>
               </CardContent>
             </Card>
@@ -219,7 +218,7 @@ export default async function Home() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Optimizo cada aspecto para lograr aplicaciones rápidas y eficientes que brinden la mejor experiencia.
+                  Desarrollo aplicaciones rápidas y optimizadas.
                 </p>
               </CardContent>
             </Card>
