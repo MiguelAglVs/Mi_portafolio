@@ -142,7 +142,7 @@ export default async function Home() {
           </div>
 
           {featuredProjects.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {featuredProjects.map((project) => (
                 <HomeProjectCard key={project.id} project={project} />
               ))}
@@ -150,14 +150,20 @@ export default async function Home() {
           ) : (
             <div className="text-center py-12">
               <Code className="h-8 w-8 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">
-                No hay proyectos destacados aún
-              </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Agrega algunos en tu panel para mostrarlos aquí.
+                No hay proyectos destacados aún
               </p>
             </div>
           )}
+
+          <div className="text-center mt-12">
+            <Button asChild>
+              <Link href="/projects" className="gap-2">
+                Ver todos los proyectos
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -232,7 +238,8 @@ export default async function Home() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Diseño interfaces intuitivas y accesibles que resuelven problemas reales de los usuarios.
+                  Diseño interfaces intuitivas y accesibles que resuelven
+                  problemas reales de los usuarios.
                 </p>
               </CardContent>
             </Card>
@@ -246,7 +253,8 @@ export default async function Home() {
             ¿Tienes un proyecto en mente?
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-            Estoy disponible para colaborar en nuevos proyectos y desafíos interesantes.
+            Estoy disponible para colaborar en nuevos proyectos y desafíos
+            interesantes.
           </p>
           <Button size="lg" asChild>
             <Link href="/contact" className="gap-2">
