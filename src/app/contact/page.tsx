@@ -1,3 +1,4 @@
+// src/app/contact/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -20,7 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 export default function ContactPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,10 +35,9 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setIsSuccess(false);
 
     try {
-      const response = await fetch("/api/contact", {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,19 +45,29 @@ export default function ContactPage() {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        setIsSuccess(true);
-        setFormData({ name: "", email: "", message: "" });
+      const data = await res.json();
 
-        // Reset success message after 5 seconds
-        setTimeout(() => {
-          setIsSuccess(false);
-        }, 5000);
-      } else {
-        throw new Error("Error al enviar el mensaje");
+      if (!res.ok) {
+        throw new Error(data.error || "Error al enviar el mensaje");
       }
+
+      toast.success("Mensaje enviado", {
+        description: "Tu mensaje fue enviado correctamente",
+        duration: 3000,
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+      setIsSuccess(true);
     } catch (error) {
-      console.error("Error:", error);
+      toast.error("Error al enviar el mensaje", {
+        description:
+          error instanceof Error ? error.message : "Error inesperado",
+        duration: 5000,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -66,16 +76,17 @@ export default function ContactPage() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
     <div className="min-h-screen py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-black">
       <div className="container mx-auto px-4">
-        {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Contáctame</h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
@@ -85,7 +96,6 @@ export default function ContactPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {/* Formulario */}
           <div className="lg:col-span-2">
             <Card>
               <CardHeader>
@@ -110,7 +120,14 @@ export default function ContactPage() {
                     </p>
                     <Button
                       className="mt-6"
-                      onClick={() => setIsSuccess(false)}
+                      onClick={() => {
+                        setIsSuccess(false);
+                        setFormData({
+                          name: "",
+                          email: "",
+                          message: "",
+                        });
+                      }}
                     >
                       Enviar otro mensaje
                     </Button>
@@ -128,10 +145,10 @@ export default function ContactPage() {
                         <Input
                           id="name"
                           name="name"
-                          placeholder="Tu nombre"
                           value={formData.name}
                           onChange={handleChange}
                           required
+                          disabled={isLoading}
                         />
                       </div>
 
@@ -146,10 +163,10 @@ export default function ContactPage() {
                           id="email"
                           name="email"
                           type="email"
-                          placeholder="tu@email.com"
                           value={formData.email}
                           onChange={handleChange}
                           required
+                          disabled={isLoading}
                         />
                       </div>
                     </div>
@@ -164,12 +181,12 @@ export default function ContactPage() {
                       <Textarea
                         id="message"
                         name="message"
-                        placeholder="Cuéntame sobre tu proyecto, idea o consulta..."
                         rows={6}
                         value={formData.message}
                         onChange={handleChange}
                         required
                         className="min-h-[150px]"
+                        disabled={isLoading}
                       />
                     </div>
 
@@ -200,7 +217,6 @@ export default function ContactPage() {
             </Card>
           </div>
 
-          {/* Información de contacto */}
           <div className="space-y-6">
             <Card>
               <CardHeader>

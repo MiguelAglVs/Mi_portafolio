@@ -40,13 +40,27 @@ export default function RootLayout({
               {/* Toaster para notificaciones */}
               <Toaster
                 position="top-right"
+                expand={false}
+                richColors
+                closeButton
+                theme="light" // Puedes cambiar a "dark" o "system" según necesites
                 toastOptions={{
-                  className: "text-sm font-medium",
-                  duration: 3000,
-                  style: {
-                    background: "hsl(var(--background))",
-                    color: "hsl(var(--foreground))",
-                    border: "1px solid hsl(var(--border))",
+                  classNames: {
+                    toast:
+                      "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
+                    description: "group-[.toast]:text-muted-foreground",
+                    actionButton:
+                      "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
+                    cancelButton:
+                      "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
+                    // Estilos específicos para diferentes tipos de toast
+                    success:
+                      "group-[.toaster]:border-green-500/50 group-[.toaster]:bg-green-50 dark:group-[.toaster]:bg-green-950/30",
+                    error:
+                      "group-[.toaster]:border-red-500/50 group-[.toaster]:bg-red-50 dark:group-[.toaster]:bg-red-950/30",
+                    warning:
+                      "group-[.toaster]:border-yellow-500/50 group-[.toaster]:bg-yellow-50 dark:group-[.toaster]:bg-yellow-950/30",
+                    info: "group-[.toaster]:border-blue-500/50 group-[.toaster]:bg-blue-50 dark:group-[.toaster]:bg-blue-950/30",
                   },
                 }}
               />

@@ -1,17 +1,24 @@
-// Este es un hook simple para toasts, puedes usar shadcn/ui o crear uno básico
-import { useState } from 'react'
+// src/components/ui/use-toast.tsx
+import { useState } from "react";
+
+type ToastData = {
+  title: string;
+  description?: string;
+};
 
 export function useToast() {
-  const [toast, setToast] = useState<{ title: string; description: string } | null>(null)
+  const [toastData, setToastData] = useState<ToastData | null>(null);
 
-  const toastFn = (title: string, description?: string) => {
-    setToast({ title, description: description || '' })
+  const showToast = (title: string, description?: string) => {
+    setToastData({ title, description });
 
-    // Auto-remover después de 5 segundos
     setTimeout(() => {
-      setToast(null)
-    }, 5000)
-  }
+      setToastData(null);
+    }, 5000);
+  };
 
-  return { toast, toast: toastFn }
+  return {
+    toast: showToast,
+    toastData,
+  };
 }
